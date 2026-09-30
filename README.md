@@ -2,10 +2,7 @@
 
 Bitemporal truth primitives for append-supersede temporal data.
 
-`bitemporal-runtime` is the only Rust implementation of strict
-bitemporal truth — separate `valid_time` and `recorded_time`,
-append-supersede, as-of queries. As of release, **zero analogues
-exist on crates.io**.
+`bitemporal-runtime` separates `valid_time` from `recorded_time` and provides append-supersede operations, as-of queries, and supersession receipts.
 
 ## When to use it
 
@@ -58,8 +55,8 @@ fn main() {
     assert_eq!(receipts[0].superseding_id, "us-presidents");
 
     // "As of T=1500, what did we believe was the value of
-    // `us-presidents` at T=2000?" — answer: Truman, because that
-    // was the latest recorded version by 1500.
+    // `us-presidents` at T=2000?" — answer: Roosevelt, because the
+    // correction was not recorded until T=2000.
     let as_of = as_of_query(&records, t1, Utc.timestamp_opt(1500, 0).unwrap());
     assert_eq!(as_of[0].value, "Roosevelt"); // only v1 was known by T=1500
 
@@ -116,3 +113,7 @@ MIT OR Apache-2.0 (dual-licensed). See `LICENSE-MIT` and
 ## Changelog
 
 See `CHANGELOG.md` for the release history.
+
+## Standalone source checkout
+
+This GitHub checkout retains inherited `workspace = true` dependencies without its own workspace root. A standalone clone cannot currently resolve Cargo metadata by itself. The published registry package and the integrated [Libraries workspace](https://github.com/RecursiveIntell/Libraries) are separate source surfaces; use the matching workspace for source checks, or explicitly reconcile this mirror's manifest closure before building it alone.

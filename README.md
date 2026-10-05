@@ -48,8 +48,9 @@ fn main() {
         },
     ).unwrap();
 
-    // Supersession receipts are the audit handle for the change.
-    // SHA-256 digests bind every record field (id, temporal, value).
+    // append_supersede receipts hash IDs and whole-second timestamps
+    // after erasing values to (). They do not bind the original domain
+    // values or subsecond timestamps.
     assert_eq!(receipts.len(), 1);
     assert_eq!(receipts[0].superseded.superseded_id, "us-presidents");
     assert_eq!(receipts[0].superseding_id, "us-presidents");
@@ -86,7 +87,7 @@ This crate provides first-class support for bitemporal data modeling:
 
 - `append_supersede()` — append a new record, emit receipts for superseded prior versions
 - `as_of_query()` — query records valid at a given `valid_time` as of a given `recorded_time`
-- `temporal_snapshot()` — retrieve full state as of a given `recorded_time`
+- `temporal_snapshot()` — use one cutoff for both `valid_time` and `recorded_time`; future-valid records are excluded even if already recorded
 
 ## Cargo features
 
@@ -109,10 +110,6 @@ With `schema`: adds `schemars`.
 
 MIT OR Apache-2.0 (dual-licensed). See `LICENSE-MIT` and
 `LICENSE-APACHE` for the full texts.
-
-## Changelog
-
-See `CHANGELOG.md` for the release history.
 
 ## Standalone source checkout
 

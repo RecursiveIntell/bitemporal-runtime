@@ -1,3 +1,5 @@
+<!-- last-verified: 2026-10-23 -->
+
 # bitemporal-runtime
 
 Bitemporal truth primitives for append-supersede temporal data.
@@ -16,6 +18,20 @@ you don't need this crate. If you have two, and you need both, you
 do.
 
 ## Quick Start
+
+To run this example against the registry-published crate (rather than the
+GitHub source checkout; see [Standalone source checkout](#standalone-source-checkout)),
+create a small Cargo binary and add the crate plus `chrono`:
+
+```sh
+cargo new bitemporal-example
+cd bitemporal-example
+cargo add bitemporal-runtime chrono
+```
+
+Copy the Rust program below into `src/main.rs`, then run `cargo run`.
+Success means the process exits with status 0; the assertions check the
+example's expected results.
 
 ```rust
 use bitemporal_runtime::{append_supersede, as_of_query, BitemporalRecord};
